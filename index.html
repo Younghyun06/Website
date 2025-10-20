@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Journey — Home</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">My Journey</h1>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="journey.html">Journey</a>
+        <a href="resume.html">Resume</a>
+        <a href="research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="intro">
+      <h2>Welcome</h2>
+      <p>Hi — this site will tell the story of my move from Korea to the United States, show my resume, and highlight my research. Use the links above to explore. I'll add more details and photos soon.</p>
+    </section>
+
+    <section class="highlights">
+      <div class="card">
+        <h3>Journey</h3>
+        <p>Personal timeline with photos and stories about moving between countries.</p>
+        <p><a class="button" href="journey.html">Read the journey</a></p>
+      </div>
+      <div class="card">
+        <h3>Resume</h3>
+        <p>Downloadable resume and an HTML version that's easy to print.</p>
+        <p><a class="button" href="resume.html">View resume</a></p>
+      </div>
+      <div class="card">
+        <h3>Research</h3>
+        <p>Publications, projects, and code related to my research interests.</p>
+        <p><a class="button" href="research.html">See research</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <!-- YEAR --> <span id="year"></span> — My Journey</p>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

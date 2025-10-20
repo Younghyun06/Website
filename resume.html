@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="site-title">Resume</h1>
+      <nav class="site-nav">
+        <a href="index.html">Home</a>
+        <a href="journey.html">Journey</a>
+        <a href="resume.html">Resume</a>
+        <a href="research.html">Research</a>
+      </nav>
+    </div>
+  </header>
+  <main class="container">
+    <h2>Resume (HTML)</h2>
+    <p>Provide an HTML version of your resume here and a link to download a PDF.</p>
+    <p><a class="button" href="#">Download PDF (add your file to <code>assets/</code>)</a></p>
+    <section>
+      <h3>Experience</h3>
+      <p>Company — Role — Dates</p>
+      <h3>Education</h3>
+      <p>University — Degree — Dates</p>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container">&copy; <span id="year3"></span> — Resume</div></footer>
+  <script>document.getElementById('year3').textContent = new Date().getFullYear();</script>
+</body>
+</html>
