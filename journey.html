@@ -25,7 +25,10 @@
     <p>Explore the map below to see what I was doing in each city during different years.</p>
 
     <div class="journey-layout">
-      <div id="map" class="map"></div>
+      <figure class="map-figure">
+        <div id="map" class="map" role="region" aria-label="Interactive map of journey locations" tabindex="0"></div>
+        <figcaption class="map-caption">Use the markers or the list to explore each place. Buttons are keyboard accessible.</figcaption>
+      </figure>
       <aside class="map-panel" id="map-panel">
         <h3 id="panel-title">Select a location</h3>
         <div id="panel-content">Click a marker or a city from the list to see details.</div>
@@ -92,6 +95,11 @@
       const btn = document.createElement('button');
       btn.className = 'loc-button';
       btn.textContent = loc.title;
+      // Accessibility attributes for the button
+      btn.setAttribute('aria-controls', 'map-panel');
+      btn.setAttribute('aria-expanded', 'false');
+      btn.setAttribute('data-loc', loc.id);
+
       btn.onclick = () => {
         // smooth fly to
         map.flyTo(loc.coords, loc.zoom, {duration: 1.2});
@@ -105,6 +113,14 @@
     function showLocation(loc){
       document.getElementById('panel-title').textContent = loc.title;
       document.getElementById('panel-content').innerHTML = loc.content;
+      // Open the popup if the marker exists
+      if(markers[loc.id]){
+        markers[loc.id].openPopup();
+      }
+      // Manage aria-expanded on location buttons
+      document.querySelectorAll('.loc-button').forEach(b => b.setAttribute('aria-expanded', 'false'));
+      const active = document.querySelector(`.loc-button[data-loc="${loc.id}"]`);
+      if(active) active.setAttribute('aria-expanded', 'true');
     }
   </script>
 </body>
