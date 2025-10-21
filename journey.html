@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Journey — My Story</title>
   <link rel="stylesheet" href="css/style.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-sA+9Y0JYkG9bH6k1mP0sQ1w0Cw8pF5h0n+v9ZkG6t3s=" crossorigin=""/>
 </head>
 <body>
   <header class="site-header">
@@ -20,17 +22,90 @@
   </header>
   <main class="container">
     <h2>From Korea to the United States</h2>
-    <p>This page will contain a timeline, photos, and stories about my move. Add anecdotes, dates, and images inside the <code>assets/</code> folder and reference them here.</p>
-    <section>
-      <h3>Life time in Korea</h3>
-      <h3>Life time in the United States</h3>
-      <ul>
-        <li>1/6/2022, flew from Korea to Denver, Colorado, USA</li>
-        <li>8/23/2023, Moved to Baton Rouge, Louisiana</li>
-      </ul>
-    </section>
+    <p>Explore the map below to see what I was doing in each city during different years.</p>
+
+    <div class="journey-layout">
+      <div id="map" class="map"></div>
+      <aside class="map-panel" id="map-panel">
+        <h3 id="panel-title">Select a location</h3>
+        <div id="panel-content">Click a marker or a city from the list to see details.</div>
+        <ul id="location-list" class="location-list"></ul>
+      </aside>
+    </div>
   </main>
   <footer class="site-footer"><div class="container">&copy; <span id="year2"></span> — Journey</div></footer>
-  <script>document.getElementById('year2').textContent = new Date().getFullYear();</script>
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-o9N1j7k0Jf5yVw5Qxq3sG8jv5G1yV8h3m4z6b9n3k6I=" crossorigin=""></script>
+  <script>
+    document.getElementById('year2').textContent = new Date().getFullYear();
+
+    // Data-driven locations (easy to extend)
+    const locations = [
+      {
+        id: 'seoul',
+        title: 'Seoul, South Korea',
+        coords: [37.5665, 126.9780],
+        zoom: 12,
+        content: '<p>Grew up and attended school in Seoul.</p><p>Years: —</p>'
+      },
+      {
+        id: 'denver',
+        title: 'Denver, Colorado, USA',
+        coords: [39.7392, -104.9903],
+        zoom: 12,
+        content: '<p>Studied in Denver from 2022–2023.</p>'
+      },
+      {
+        id: 'baton_rouge',
+        title: 'Baton Rouge, Louisiana, USA',
+        coords: [30.4515, -91.1871],
+        zoom: 12,
+        content: '<p>Started research in Baton Rouge in 2024.</p>'
+      },
+      {
+        id: 'los_angeles',
+        title: 'Los Angeles, California, USA',
+        coords: [34.0522, -118.2437],
+        zoom: 12,
+        content: '<p>Visited / worked in Los Angeles.</p>'
+      }
+    ];
+
+    // Initialize map
+    const map = L.map('map', {scrollWheelZoom: false}).setView([20,0], 2);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    const markers = {};
+
+    // Add markers and list items
+    const listEl = document.getElementById('location-list');
+    locations.forEach(loc => {
+      const marker = L.marker(loc.coords).addTo(map).bindPopup(`<strong>${loc.title}</strong><br/>${loc.content}`);
+      marker.on('click', () => showLocation(loc));
+      markers[loc.id] = marker;
+
+      const li = document.createElement('li');
+      const btn = document.createElement('button');
+      btn.className = 'loc-button';
+      btn.textContent = loc.title;
+      btn.onclick = () => {
+        // smooth fly to
+        map.flyTo(loc.coords, loc.zoom, {duration: 1.2});
+        marker.openPopup();
+        showLocation(loc);
+      };
+      li.appendChild(btn);
+      listEl.appendChild(li);
+    });
+
+    function showLocation(loc){
+      document.getElementById('panel-title').textContent = loc.title;
+      document.getElementById('panel-content').innerHTML = loc.content;
+    }
+  </script>
 </body>
 </html>
